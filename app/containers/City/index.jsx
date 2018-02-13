@@ -8,7 +8,7 @@ import CurrentCity from '../../components/CurrentCity'
 import CityList from '../../components/CityList'
 import LocalStore from '../../util/localStore'
 import { CITYNAME } from '../../config/localStoreKey'
-import { hashHistory } from 'react-router'
+import { withRouter } from 'react-router-dom'
 
 class City extends React.Component {
     constructor(props, context) {
@@ -21,7 +21,7 @@ class City extends React.Component {
     render() {
         return (
             <div>
-                <Header title="选择城市"/>
+                <Header title="选择城市" history={this.props.history}/>
                 <CurrentCity cityName={this.props.userinfo.cityName}/>
                 <CityList changeFn={this.changeCity.bind(this)}/>
             </div>
@@ -41,7 +41,7 @@ class City extends React.Component {
         this.props.userInfoActions.update(userinfo)
         //修改localstroge
         LocalStore.setItem(CITYNAME, newCity)
-        hashHistory.push('/')
+        this.props.history.repalce('/')
     }
 }
 
@@ -58,7 +58,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps 
-)(City)
+)(City))

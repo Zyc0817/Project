@@ -1,31 +1,60 @@
 var path = require('path')
 var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OpenBrowserPlugin = require('open-browser-webpack-plugin');
+
+// var nodeModulesPath = path.resolve(__dirname, 'node_modules')
+// console.log(process.env.NODE_ENV)
 
 module.exports = {
     entry: path.resolve(__dirname, 'app/index.jsx'),
     output: {
+        path: __dirname + "/build",
         filename: "bundle.js"
     },
 
     resolve:{
-        extensions:['', '.js','.jsx']
+        extensions:['.js','.jsx']
     },
 
     module: {
-        loaders: [
-            { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel' },
-            { test: /\.less$/, exclude: /node_modules/, loader: 'style!css!postcss!less' },
-            { test: /\.css$/, exclude: /node_modules/, loader: 'style!css!postcss' },
-            { test:/\.(png|gif|jpg|jpeg|bmp)$/i, loader:'url-loader?limit=5000' },  // 限制大小5kb
-            { test:/\.(png|woff|woff2|svg|ttf|eot)($|\?)/i, loader:'url-loader?limit=5000'} // 限制大小小于5k
+        rules: [
+            {
+                test: /\.jsx?$/, // test 去判断是否为.js或.jsx,是的话就是进行es6和jsx的编译
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015', 'react']
+                }
+            },
+            {
+                test: /\.(less|css)?$/,
+                exclude: /(node_modules|bower_components)/,
+                use: [
+                    'style-loader',
+                    { 
+                        loader: 'css-loader', 
+                        options: { 
+                            importLoaders: 1 
+                        } 
+                    },
+                    'postcss-loader',
+                    'less-loader'
+                ]
+            },
+            {
+                test: /\.(jpg|jpeg|gif|bmp|png|webp)?$/i,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'file-loader'
+            },
+            {
+                test: /\.(woff|woff2|svg|ttf|eot)?$/i,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'file-loader'
+            }
         ]
     },
-
-    postcss: [
-        require('autoprefixer') //调用autoprefixer插件，例如 display: flex
-    ],
 
     plugins: [
         // html 模板插件
@@ -48,7 +77,7 @@ module.exports = {
     ],
 
     devServer: {
-         proxy: {
+        proxy: {
           // 凡是 `/api` 开头的 http 请求，都会被代理到 localhost:3000 上，由 koa 提供 mock 数据。
           // koa 代码在 ./mock 目录中，启动命令为 npm run mock
           '/api': {
@@ -56,8 +85,8 @@ module.exports = {
             secure: false
           }
         },
-        colors: true, //终端中输出结果为彩色
-        historyApiFallback: true, //不跳转，在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
+        contentBase: "./public", //本地服务器所加载的页面所在的目录
+        historyApiFallback: true, //不跳转
         inline: true, //实时刷新
         hot: true  // 使用热加载插件 HotModuleReplacementPlugin
     }

@@ -1,6 +1,11 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import './style.less'
+let img1 = require('../../static/img/138012-20161016191639092-2000037796.png')
+let img2 = require('../../static/img/138012-20161016191648124-298129318.png')
+let img3 = require('../../static/img/138012-20161016191653983-1962772127.png')
+
+let arr = [img1, img2, img3, img1, img2, img3]
 
 class HomeAd extends React.Component {
     constructor(props, context) {
@@ -17,7 +22,7 @@ class HomeAd extends React.Component {
                     {data.map((item, index) => {
                         return <div key={index} className="ad-item float-left">
                             <a href={item.link} target="_blank">
-                                <img src={item.img} alt={item.title}/>
+                                <img src={arr[index]} alt={item.title}/>
                             </a>
                         </div>
                     })}

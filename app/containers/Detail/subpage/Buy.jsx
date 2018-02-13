@@ -2,7 +2,6 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { hashHistory } from 'react-router'
 import BuyAndStore from '../../../components/BuyAndStore'
 import * as storeActionsFromFile from '../../../actions/store'
 
@@ -47,7 +46,7 @@ class Buy extends React.Component {
         // 购买流程
         // 。。。
         // 。。。
-        hashHistory.push('/User')
+        this.props.history.push('/User/')
     }
 
     //收藏数据
@@ -78,7 +77,7 @@ class Buy extends React.Component {
         const id = this.props.id
         const userinfo = this.props.userinfo
         if(!userinfo.username) {
-            hashHistory.push('/Login/' + encodeURIComponent('/detail/' + id))
+            this.props.history.push('/Login/' + encodeURIComponent('/detail/' + id))
             return false
         }
         return true

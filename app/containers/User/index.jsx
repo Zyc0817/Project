@@ -3,9 +3,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Header from '../../components/Header'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { hashHistory } from 'react-router'
 import UserInfo from '../../components/UserInfo'
 import OrderList from './subpage/OrderList'
+import { withRouter } from 'react-router-dom'
 
 class User extends React.Component {
     constructor(props, context) {
@@ -19,7 +19,7 @@ class User extends React.Component {
         const userinfo = this.props.userinfo
         return (
             <div>
-                <Header title="个人中心" backRoute="/"/>
+                <Header title="个人中心" backRoute="/" history={this.props.history}/>
                 <UserInfo username={userinfo.username} city={userinfo.cityName}/>
                 <OrderList username={userinfo.username}/>
             </div>
@@ -27,7 +27,7 @@ class User extends React.Component {
     }
     componentDidMount() {
         if(!this.props.userinfo.username) {
-            hashHistory.push('/Login')
+            this.props.history.push('/Login')
         }
     }
 }
@@ -46,7 +46,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps 
-)(User)
+)(User))

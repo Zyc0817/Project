@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import LocalStore from '../util/localStore'
 import { CITYNAME } from '../config/localStoreKey'
 import * as userInfoActionsFromOtherFile from '../actions/userinfo' 
+import { withRouter } from 'react-router-dom'
 
 class App extends React.Component {
     constructor(props, context) {
@@ -59,7 +60,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps 
-)(App)
+)(App))

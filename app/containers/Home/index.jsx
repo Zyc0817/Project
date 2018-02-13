@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Category from '../../components/Category'
 import Ad from './subpage/Ad'
 import List from './subpage/List'
+import { withRouter } from 'react-router-dom'
 
 class Home extends React.Component {
     constructor(props, context) {
@@ -17,7 +18,7 @@ class Home extends React.Component {
     render() {
         return (
             <div>
-                <HomeHeader cityName={this.props.userinfo.cityName}/>
+                <HomeHeader cityName={this.props.userinfo.cityName} history={this.props.history}/>
                 <Category/>
                 <div style={{height:'15px'}}></div>
                 <Ad/>
@@ -40,7 +41,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps 
-)(Home)
+)(Home))

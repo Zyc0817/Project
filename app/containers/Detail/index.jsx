@@ -15,10 +15,10 @@ class Detail extends React.Component {
         }
     }
     render() {
-        const id = this.props.params.id
+        const id = this.props.match.params.id
         return (
             <div>
-                <Header title='商户详情'/>
+                <Header title='商户详情' history={this.props.history}/>
                 <Info id={id}/>
                 <Buy id={id}/>
                 <Comment id={id}/>

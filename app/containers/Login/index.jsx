@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as userInfoActionsFromOtherFile from '../../actions/userinfo'
 import Header from '../../components/Header'
-import { hashHistory } from 'react-router'
 import LoginComponents from '../../components/Login'
+import { withRouter } from 'react-router-dom'
 
 class Login extends React.Component {
     constructor(props, context) {
@@ -18,7 +18,7 @@ class Login extends React.Component {
     render() {
         return (
             <div>
-                <Header title='登录'/>
+                <Header title='登录' history={this.props.history}/>
                 {
                     this.state.checking
                     ? <div></div>
@@ -39,10 +39,10 @@ class Login extends React.Component {
         actions.update(userinfo)
 
         // 跳转链接
-        const params = this.props.params
+        const params = this.props.match.params
         const router = params.router
         if(router) {
-            hashHistory.push(router)
+            this.props.history.push(router)
         } else {
             this.goUserPage()
         }
@@ -60,7 +60,7 @@ class Login extends React.Component {
 
     }
     goUserPage() {
-        hashHistory.push('/User')
+        this.props.history.push('/User')
     }
 }
 
@@ -77,7 +77,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps 
-)(Login)
+)(Login))

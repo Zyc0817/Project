@@ -1,7 +1,9 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import './style.less'
-import { Link } from 'react-router' 
+import { Link } from 'react-router-dom' 
+let img1 = require('../../../static/img/138012-20161016201652952-1050532278.png')
+let arr = [img1]
 
 class Item extends React.Component {
     constructor(props, context) {
@@ -15,7 +17,7 @@ class Item extends React.Component {
             <div className="list-item clear-fix">
                 <Link to={'/detail/' + data.id}>
                     <div className="item-img-container float-left">
-                        <img src={data.img} alt={data.title}/>
+                        <img src={arr[0]} alt={data.title}/>
                     </div>
                     <div className="item-content">
                         <div className="item-title-container clear-fix">
